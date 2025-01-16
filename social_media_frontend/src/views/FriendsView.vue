@@ -39,8 +39,8 @@
                         <p class="text-xs text-gray-500">120 posts</p>
                     </div>
                     <div class="mt-6 space-x-4">
-                        <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">Accept</button>
-                        <button class="inline-block py-4 px-6 bg-red-600 text-white rounded-lg">Reject</button>
+                        <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg" @click="handleRequest('accept', friendshipRequest.created_by.id)">Accept</button>
+                        <button class="inline-block py-4 px-6 bg-red-600 text-white rounded-lg" @click="handleRequest('reject', friendshipRequest.created_by.id)">Reject</button>
                     </div>
                 </div>
             </div>
@@ -128,6 +128,18 @@ export default {
                 .catch(error => {
                     console.log('error', error)
                 })
+        },
+
+        handleRequest(status, pk) {
+            console.log("handle request", status)
+            axios
+                .post(`/api/friends/${pk}/${status}/`)
+                .then(response => {
+                    console.log('data', response.data)
+                })  
+                .catch(error => {
+                    console.log('error', error)
+                })  
         }
     }
 }

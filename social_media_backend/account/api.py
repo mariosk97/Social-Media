@@ -59,5 +59,9 @@ def friends(request, pk):
         'requests': requests_data
     }, safe=False)
 
+@api_view(['POST'])
+def handle_request(request, pk, status):
+    pass
+
 
         

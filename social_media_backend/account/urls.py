@@ -9,4 +9,5 @@ urlpatterns = [
     path('me/', api.me, name='me'),
     path('friends/<uuid:pk>/request/', api.send_friendship_request, name='send_friendship_request'),
     path('friends/<uuid:pk>/', api.friends, name='friends'),
+    path('friends/<uuid:pk>/<str:status>/', api.handle_request, name='handle_request'),
 ]
