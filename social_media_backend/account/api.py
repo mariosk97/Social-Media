@@ -61,7 +61,11 @@ def friends(request, pk):
 
 @api_view(['POST'])
 def handle_request(request, pk, status):
-    pass
-
-
+    user = User.objects.get(pk=pk) #user that made the friend request
+    friendship_request = FriendshipRequest.objects.filter(created_for=request.user).get(created_by=user)
+    friendship_request.status = status
+    friendship_request.save()
+    user.friends.add(request.user)
+    user.save()
         
+    return JsonResponse({'message': 'friend request updated'})

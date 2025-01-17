@@ -18,12 +18,12 @@
                 class="p-4 bg-white border border-gray-200 rounded"
                 v-if="friendshipRequests.length"
             >
+            <h2 class="mb-6 text-xl">Friendship requests</h2>
                 <div 
                     class="p-4 text-center bg-gray-100 rounded-lg"
                     v-for="friendshipRequest in friendshipRequests"
                     v-bind:key="friendshipRequest.id"
                 >
-                    <h2 class="mb-6 text-xl">Friendship requests</h2>
                     <img src="https://i.pravatar.cc/100?img=70" class="mb-6 mx-auto rounded-full">
                 
                     <p>
@@ -39,8 +39,8 @@
                         <p class="text-xs text-gray-500">120 posts</p>
                     </div>
                     <div class="mt-6 space-x-4">
-                        <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg" @click="handleRequest('accept', friendshipRequest.created_by.id)">Accept</button>
-                        <button class="inline-block py-4 px-6 bg-red-600 text-white rounded-lg" @click="handleRequest('reject', friendshipRequest.created_by.id)">Reject</button>
+                        <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg" @click="handleRequest('accepted', friendshipRequest.created_by.id)">Accept</button>
+                        <button class="inline-block py-4 px-6 bg-red-600 text-white rounded-lg" @click="handleRequest('rejected', friendshipRequest.created_by.id)">Reject</button>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@ export default {
                 })
         },
 
-        handleRequest(status, pk) {
+        handleRequest(status, pk) { //pk of user who made the friend request
             console.log("handle request", status)
             axios
                 .post(`/api/friends/${pk}/${status}/`)
