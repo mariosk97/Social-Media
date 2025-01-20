@@ -7,7 +7,7 @@
                 <p><strong>{{ user.name }}</strong></p>
 
                 <div class="mt-6 flex space-x-8 justify-around">
-                    <p class="text-xs text-gray-500">182 friends</p>
+                    <p class="text-xs text-gray-500">{{ user.friends_count }} friends</p>
                     <p class="text-xs text-gray-500">120 posts</p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     </p>
 
                     <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-gray-500">182 friends</p>
+                        <p class="text-xs text-gray-500">{{ user.friends_count }} friends</p>
                         <p class="text-xs text-gray-500">120 posts</p>
                     </div>
                     <div class="mt-6 space-x-4">
@@ -43,12 +43,11 @@
                         <button class="inline-block py-4 px-6 bg-red-600 text-white rounded-lg" @click="handleRequest('rejected', friendshipRequest.created_by.id)">Reject</button>
                     </div>
                 </div>
+                <hr>
             </div>
 
-            <hr>
-
             <div 
-                class="p-4 bg-white border border-gray-200 rounded-lg grid grid-cols-4 gap-4"
+                class="p-4 bg-white border border-gray-200 rounded-lg grid grid-cols-2 gap-4"
                 v-if="friends.length"
             >
                 <div 
@@ -67,7 +66,7 @@
                     </p>
 
                     <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-gray-500">182 friends</p>
+                        <p class="text-xs text-gray-500">{{ user.friends_count }} friends</p>
                         <p class="text-xs text-gray-500">120 posts</p>
                     </div>
                 </div>
