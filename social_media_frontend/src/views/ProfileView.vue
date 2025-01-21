@@ -55,15 +55,18 @@ import PeopleYouMayKnow from '@/components/PeopleYouMayKnow.vue';
 import Trends from '@/components/Trends.vue';
 import { useUserStore } from '@/stores/user'
 import FeedItem from '@/components/FeedItem.vue';
+import { useToastStore } from '@/stores/toast'
 
 export default {
     name: 'ProfileView',
 
     setup() {
         const userStore = useUserStore()
+        const toastStore = useToastStore()
 
         return {
-            userStore
+            userStore,
+            toastStore
         }
     },       
 
@@ -101,6 +104,13 @@ export default {
                 .post(`/api/friends/${this.$route.params.id}/request/`) //send friend request
                 .then(response => {
                     console.log('data', response.data)
+
+                    if (response.data.message == 'request already sent'){
+                        this.toastStore.showToast(5000, 'The request has already been sent', 'bg-red-300')
+                    }    
+                    else{
+                        this.toastStore.showToast(5000, 'The request was sent', 'bg-emerald-300')
+                    }
                 })  
                 .catch(error => {
                     console.log('error', error)
