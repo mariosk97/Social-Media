@@ -11,7 +11,19 @@
                     <p class="text-xs text-gray-500">120 posts</p>
                 </div>
                 <div class="mt-6">
-                    <button class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" @click="sendFriendshipRequest">Send friendship request</button>
+                    <button 
+                        class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
+                        @click="sendFriendshipRequest"
+                        v-if="userStore.user.id !== user.id">
+                        Send friendship request
+                    </button>
+
+                    <button 
+                        class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg" 
+                        @click="sendFriendshipRequest"
+                        v-if="userStore.user.id == user.id">
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>
@@ -144,6 +156,12 @@ export default {
                 .catch(error => {
                     console.log('error', error)
                 })
+        },
+
+        logout() {
+            console.log("logout")
+            this.userStore.removeToken()
+            this.$router.push('/login')
         }
     }
 }
