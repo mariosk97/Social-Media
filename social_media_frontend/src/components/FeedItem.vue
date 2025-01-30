@@ -54,11 +54,12 @@ export default {
 
     methods: {
         likePost(id) {
-            console.log("likePost", id)
             axios
                 .post(`/api/posts/${id}/like/`)
                 .then(response => {
-                    console.log(response.data)
+                    if (response.data.message == 'like created') {
+                        this.post.likes_count += 1 
+                    }
                 })
                 .catch(error => {
                     console.log("error", error)

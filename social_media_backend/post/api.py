@@ -47,11 +47,18 @@ def post_create(request):
 
 @api_view(['POST'])
 def post_like(request, pk):
-    like = Like.objects.create(created_by=request.user)
     post = Post.objects.get(pk=pk)
-    post.likes_count = post.likes_count + 1
-    post.likes.add(like)
-    post.save()
+    if not post.likes.filter(created_by=request.user):
+        like = Like.objects.create(created_by=request.user)
+        post.likes_count = post.likes_count + 1
+        post.likes.add(like)
+        post.save()
 
-    return JsonResponse({'message': 'like created'})
+        return JsonResponse({'message': 'like created'})
+    else:
+        return JsonResponse({'message': 'post already liked'})
+    
+@api_view(['GET'])
+def post_detail(request, pk):   
+    post = Post.objects.get(pk=pk) 
     
