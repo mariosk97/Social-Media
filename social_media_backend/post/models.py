@@ -14,7 +14,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now=True)  
     body = models.TextField(blank=True, null=True)  
 
-    def created_at_formatted (self):
+    def created_at_formatted (self): #human readable
         return timesince(self.created_at) 
 
 class PostAttachment(models.Model):
