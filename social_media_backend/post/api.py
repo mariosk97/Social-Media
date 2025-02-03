@@ -65,4 +65,11 @@ def post_detail(request, pk):
     return JsonResponse({
         'post': PostDetailSerializer(post).data
     })
+
+@api_view(['POST'])
+def post_create_comment(request, pk): 
+    post = Post.objects.get(pk=pk) 
+    print(request.data)
+
+    return JsonResponse({'message': 'comment was added'})
     
