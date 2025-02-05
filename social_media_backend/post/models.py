@@ -6,12 +6,12 @@ from django.utils.timesince import timesince
 class Like(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_by = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_by = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)  
+    created_at = models.DateTimeField(auto_now_add=True)  
     body = models.TextField(blank=True, null=True)  
 
     def created_at_formatted (self): #human readable
@@ -27,7 +27,7 @@ class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     body = models.TextField(blank=True, null=True)
 
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
 
     likes = models.ManyToManyField(Like, blank=True)
