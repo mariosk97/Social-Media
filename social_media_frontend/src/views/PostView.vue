@@ -9,7 +9,7 @@
             </div>
 
             <div
-                class="bg-white border border-gray-200 rounded-lg"
+                class="p-4 ml-6 bg-white border border-gray-200 rounded-lg"
                 v-for="comment in post.comments"
                 v-bind:key="comment.id"
             >
@@ -87,7 +87,8 @@ export default {
                 })
                 .then(response => {
                     console.log('data', response.data)
-                    this.post.comments.unshift(response.data) //adds 
+                    this.post.comments.push(response.data) //adds comment
+                    this.post.comments_count += 1 //dynamically update comment count
                     this.body = '' //clear users text box
                 })
                 .catch(error => {

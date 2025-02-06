@@ -14,6 +14,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  
     body = models.TextField(blank=True, null=True)  
 
+    class Meta:
+        ordering = ('created_at',)
+
     def created_at_formatted (self): #human readable
         return timesince(self.created_at) 
 
