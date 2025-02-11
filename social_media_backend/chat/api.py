@@ -7,9 +7,6 @@ from .models import Conversation, ConversationMessage
 def conversation_list(request):
     conversations = Conversation.objects.filter(users__in = list([request.user]))
 
-    user_ids = [request.user.id]
+    print(conversations)
 
-    for user in request.user.friends.all():
-        user_ids.append(user.id)
-        
-    #posts = Post.objects.filter(created_by_id__in = list(user_ids))
+    return JsonResponse({'aas': 'tss'})
