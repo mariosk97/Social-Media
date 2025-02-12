@@ -6,7 +6,8 @@ from .models import Conversation, ConversationMessage
 @api_view(['GET'])
 def conversation_list(request):
     conversations = Conversation.objects.filter(users__in = list([request.user]))
+    serializer = ConversationSerializer(conversations, many=True)
 
     print(conversations)
 
-    return JsonResponse({'aas': 'tss'})
+    return JsonResponse(serializer.data, safe=False)
