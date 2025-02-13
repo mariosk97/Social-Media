@@ -11,12 +11,18 @@
                         <div class="flex items-center space-x-2">
                             <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
                             
-                            <p class="text-xs font-strong"
+                            <template
                                 v-for="user in conversation.users"
                                 v-bind:key="user.id"
                             >
-                            {{ user.name }}
-                            </p>
+                                <p 
+                                    class="text-xs font-strong"
+                                    v-if="user.id !== userStore.user.id"
+                                >
+                                {{ user.name }}
+                                </p>
+                            
+                        </template>
                         </div>
 
                         <span class="text-xs text-gray-500">{{conversation.modified_at_formatted}} ago</span>
@@ -81,7 +87,7 @@
                 </div>
 
                 <div class="p-4 border-t border-gray-100 flex justify-between">
-                    <a href="#" class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">Post</a>
+                    <a href="#" class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">Send</a>
                 </div>
             </div>
 
@@ -91,29 +97,55 @@
 
 <script>
 import axios from 'axios';
+ import { useUserStore } from '@/stores/user'
 
 export default {
     name: 'chat',
 
-    data(){
+    setup() {
+        const userStore = useUserStore()
+
         return {
-            conversations: []
+            userStore
+        }
+    },        
+
+    data() {
+        return {
+            conversations: [],
+            activeConversation: {}
         }
     },   
 
-    mounted(){
+    mounted() {
         this.GetConversations()
     },
 
     methods: {
-        GetConversations(){
+        GetConversations() {
             console.log('GetConversations')
             axios
                 .get('/api/chat/')
                 .then( response => {
                     console.log(response.data)
                     this.conversations = response.data
+                    if (this.conversations.length) {
+                        this.activeConversation = this.conversations[0]
+                    }
+                    this.getMessages()
                 })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+
+        getMessages() {
+            console.log('getMessages')
+            axios
+                .get(`/api/chat/${this.activeConversation.id}/`)
+                .then( response => {
+                    console.log(response.data)
+                })    
                 .catch(error => {
                     console.log(error)
                 })
