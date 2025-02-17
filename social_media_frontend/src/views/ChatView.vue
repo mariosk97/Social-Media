@@ -7,6 +7,7 @@
                         class="flex items-center justify-between"
                         v-for="conversation in conversations"
                         v-bind:key="conversation.id"
+                        v-on:click="setActiveConversation(conversation.id)"
                     >
                         <div class="flex items-center space-x-2">
                             <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
@@ -34,54 +35,41 @@
         <div class="main-center col-span-3 space-y-4">
             <div class="bg-white border border-gray-200 rounded-lg ">
                 <div class="flex flex-col flex-grow p-4">
-                    <div 
-                        class="flex w-full mt-2 space-x-3 max-w-md ml-auto justify-end"
+                    <template 
                         v-for="message in activeConversation.messages"
                         v-bind:key="message.id"
                     >
+                        <div 
+                            class="flex w-full mt-2 space-x-3 max-w-md ml-auto justify-end"
+                            v-if="message.created_by.id == userStore.user.id"
+                        >
+                            <div>
+                                <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
+                                    <p class="text-sm">{{ message.body }}</p>
+                                </div>
+                                <span class="text-xs text-gray-500 leading-none">{{ message.created_at_formatted }} ago</span>
+                            </div>
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                                <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
+                            </div>
+                        </div>
+
+                        <div 
+                            class="flex w-full mt-2 space-x-3 max-w-md"
+                            v-else
+                        >
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
+                            <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
+                        </div>
+
                         <div>
-                            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
+                            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
                                 <p class="text-sm">{{ message.body }}</p>
                             </div>
-                            <span class="text-xs text-gray-500 leading-none">{{message.created_at_formatted}} ago</span>
-                        </div>
-                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                            <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
+                            <span class="text-xs text-gray-500 leading-none">{{ message.created_at_formatted }} ago</span>
                         </div>
                     </div>
-                    <div class="flex w-full mt-2 space-x-3 max-w-md ml-auto justify-end">
-                        <div>
-                            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                <p class="text-sm">Lorem ipsum dolor sit amet.</p>
-                            </div>
-                            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                            <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
-                        </div>
-                    </div>
-                    <div class="flex w-full mt-2 space-x-3 max-w-md">
-                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                            <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
-                        </div>
-                        <div>
-                            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            </div>
-                            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                    </div>
-                    <div class="flex w-full mt-2 space-x-3 max-w-md">
-                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
-                            <img src="https://i.pravatar.cc/300?img=70" class="w-[40px] rounded-full">
-                        </div>
-                        <div>
-                            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            </div>
-                            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-                        </div>
-                    </div>
+                    </template>
                 </div>
             </div>
 
@@ -129,6 +117,9 @@ export default {
     },
 
     methods: {
+        setActiveConversation() {
+
+        },
         GetConversations() {
             console.log('GetConversations')
             axios
@@ -167,6 +158,7 @@ export default {
                 })
                 .then( response => {
                     console.log(response.data)
+                    this.activeConversation.messages.push(response.data)
                 })    
                 .catch(error => {
                     console.log(error)
