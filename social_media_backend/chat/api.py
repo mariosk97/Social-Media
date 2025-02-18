@@ -1,5 +1,7 @@
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from django.http import JsonResponse
+
+from account.models import User
 from .serializers import ConversationSerializer, ConversationMessageSerializer, ConversationDetailSerializer
 from .models import Conversation, ConversationMessage
 
@@ -37,3 +39,8 @@ def conversation_send_message(request, pk):
     serializer = ConversationMessageSerializer(conversation_message)
 
     return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def conversation_get_or_create(request, pk):
+    user = User.objects.get(pk=pk)    
+    conversation = Conversation.objects.filter(users__in = list([request.user])).filter(users__in=list([user])) #first get all the conversations of request user then check if that user alread has a conversation pk user

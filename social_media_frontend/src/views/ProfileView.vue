@@ -19,8 +19,15 @@
                     </button>
 
                     <button 
+                        class="inline-block mt-4 py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
+                        @click="sendDirectMessage"
+                        v-if="userStore.user.id !== user.id">
+                        Send message
+                    </button>
+
+                    <button 
                         class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg" 
-                        @click="sendFriendshipRequest"
+                        @click="logout"
                         v-if="userStore.user.id == user.id">
                         Logout
                     </button>
@@ -111,7 +118,18 @@ export default {
     },
 
     methods: {
-        sendFriendshipRequest(){
+        sendDirectMessage() {
+            console.log('sendDirectMessage')
+            axios   
+                .get(`/api/chat/get-or-create/${this.$route.params.id}/`)
+                .then(response => {
+                    console.log('data', response.data)
+                })   
+                .catch(error => {
+                    console.log('error', error)
+                })   
+        },
+        sendFriendshipRequest() {
             axios
                 .post(`/api/friends/${this.$route.params.id}/request/`) //send friend request
                 .then(response => {

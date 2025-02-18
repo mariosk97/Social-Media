@@ -117,8 +117,10 @@ export default {
     },
 
     methods: {
-        setActiveConversation() {
-
+        setActiveConversation(id) {
+            console.log('setActiveConversation', id)
+            this.activeConversation = id
+            this.getMessages()
         },
         GetConversations() {
             console.log('GetConversations')
@@ -128,7 +130,7 @@ export default {
                     console.log(response.data)
                     this.conversations = response.data
                     if (this.conversations.length) {
-                        this.activeConversation = this.conversations[0]
+                        this.activeConversation = this.conversations[0].id
                     }
                     this.getMessages()
                 })
@@ -140,7 +142,7 @@ export default {
         getMessages() {
             console.log('getMessages')
             axios
-                .get(`/api/chat/${this.activeConversation.id}/`)
+                .get(`/api/chat/${this.activeConversation}/`)
                 .then( response => {
                     console.log(response.data)
                     this.activeConversation = response.data
