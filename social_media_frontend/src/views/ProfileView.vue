@@ -121,9 +121,10 @@ export default {
         sendDirectMessage() {
             console.log('sendDirectMessage')
             axios   
-                .get(`/api/chat/get-or-create/${this.$route.params.id}/`)
+                .get(`/api/chat/${this.$route.params.id}/get-or-create/`)
                 .then(response => {
                     console.log('data', response.data)
+                    this.$router.push('/chat')
                 })   
                 .catch(error => {
                     console.log('error', error)

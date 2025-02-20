@@ -41,6 +41,16 @@ def conversation_send_message(request, pk):
     return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET'])
-def conversation_get_or_create(request, pk):
-    user = User.objects.get(pk=pk)    
-    conversation = Conversation.objects.filter(users__in = list([request.user])).filter(users__in=list([user])) #first get all the conversations of request user then check if that user alread has a conversation pk user
+def conversation_get_or_create(request, user_pk):
+    user = User.objects.get(pk=user_pk)    
+    conversations = Conversation.objects.filter(users__in = list([request.user])).filter(users__in=list([user])) #first get all the conversations of request user then check if that user alread has a conversation pk user
+    if conversations.exists():
+        conversation = conversations.first()
+    else:
+        conversation = Conversation.objects.create()
+        conversation.users.add(request.user, user)
+        conversation.save()
+
+    serializer = ConversationDetailSerializer(conversation)    
+
+    return JsonResponse(serializer.data, safe=False)        
