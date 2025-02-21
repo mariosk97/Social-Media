@@ -8,7 +8,7 @@
 
                 <div class="mt-6 flex space-x-8 justify-around">
                     <RouterLink :to="{name: 'friends', params: {id: user.id}}" class="text-xs text-gray-500">{{ user.friends_count }} friends</RouterLink> <!--name refers to component name in index.js NOT url.py-->
-                    <p class="text-xs text-gray-500">120 posts</p>
+                    <p class="text-xs text-gray-500">{{ user.posts_count }} posts</p>
                 </div>
                 <div class="mt-6">
                     <button 
