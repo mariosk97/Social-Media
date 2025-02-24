@@ -13,50 +13,36 @@
 
                 <a href="#" class="py-2 px-3 bg-purple-600 text-white text-xs rounded-lg">Explore</a>
             </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <p class="text-xs">
-                        <strong>#codewithstein</strong><br>
-                        <span class="text-gray-500">180 posts</span>
-                    </p>
-                </div>
-
-                <a href="#" class="py-2 px-3 bg-purple-600 text-white text-xs rounded-lg">Explore</a>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <p class="text-xs">
-                        <strong>#codewithstein</strong><br>
-                        <span class="text-gray-500">180 posts</span>
-                    </p>
-                </div>
-
-                <a href="#" class="py-2 px-3 bg-purple-600 text-white text-xs rounded-lg">Explore</a>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <p class="text-xs">
-                        <strong>#codewithstein</strong><br>
-                        <span class="text-gray-500">180 posts</span>
-                    </p>
-                </div>
-
-                <a href="#" class="py-2 px-3 bg-purple-600 text-white text-xs rounded-xl">Explore</a>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <p class="text-xs">
-                        <strong>#codewithstein</strong><br>
-                        <span class="text-gray-500">180 posts</span>
-                    </p>
-                </div>
-
-                <a href="#" class="py-2 px-3 bg-purple-600 text-white text-xs rounded-xl">Explore</a>
-            </div>
         </div>
     </div>
 </template>
+
+<script>
+import axios from 'axios';
+export default {
+    name: 'Trends',
+
+    data() {
+        return {
+            trends: []
+        }
+    },
+
+    mounted() {
+        this.getTrends()
+    },
+
+    methods: {
+        getTrends() {
+            axios
+                .get('/api/posts/trends/')
+                .then(response => {
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.log('error:', error)
+                })
+        }
+    }
+}
+</script>

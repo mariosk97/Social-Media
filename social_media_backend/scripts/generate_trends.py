@@ -17,15 +17,17 @@ def extract_hashtags(text, trends):
         if word[0] == '#':
             trends.append(word[1:])
 
-    return trends        
+    return trends     
 
-posts = Post.objects.all()
+for trend in Trend.objects.all():
+    trend.delete()   
+
 trends = []
 
-for post in posts:
+for post in Post.objects.all():
     extract_hashtags(post.body, trends)
 
-trends_counter = Counter(trends)
-
-for trend in trends_counter:
-    print(trend)
+for trend in Counter(trends).most_common(10):
+    Trend.objects.create(hashtag=trend[0], occurences=trend[1])
+    
+print(Trend.objects.all())    
