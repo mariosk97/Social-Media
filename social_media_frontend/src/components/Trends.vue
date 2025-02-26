@@ -3,11 +3,15 @@
         <h3 class="mb-6 text-xl">Trends</h3>
 
         <div class="space-y-4">
-            <div class="flex items-center justify-between">
+            <div 
+                class="flex items-center justify-between"
+                v-for="trend in trends"
+                v-bind:key="trend.id"
+            >
                 <div class="flex items-center space-x-2">
                     <p class="text-xs">
-                        <strong>#codewithstein</strong><br>
-                        <span class="text-gray-500">180 posts</span>
+                        <strong>#{{trend.hashtag}}</strong><br>
+                        <span class="text-gray-500">{{trend.occurences}} posts</span>
                     </p>
                 </div>
 
@@ -38,6 +42,7 @@ export default {
                 .get('/api/posts/trends/')
                 .then(response => {
                     console.log(response.data)
+                    this.trends = response.data
                 })
                 .catch(error => {
                     console.log('error:', error)
