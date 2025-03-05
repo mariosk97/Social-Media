@@ -3,6 +3,11 @@
         <div class="main-center col-span-3 space-y-4">
             <div 
                 class="p-4 bg-white border border-gray-200 rounded-lg"
+            >
+                <h2 class="text-xl">#{{ $route.params.id }}</h2>
+            </div>    
+            <div 
+                class="p-4 bg-white border border-gray-200 rounded-lg"
                 v-for="post in posts"
                 v-bind:key="post.id"
             >
@@ -40,6 +45,16 @@ export default {
 
     mounted() { //Calls the getFeed method after the component is mounted to load the feed
         this.getFeed()
+    },
+
+    watch: { 
+        '$route.params.id': { //watching the id in the route. Whole page does not reload when switching to different profile.
+            handler: function() {
+                this.getFeed()
+            },
+            deep: true,
+            immediate: true
+        }
     },
 
     methods: {

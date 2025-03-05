@@ -25,6 +25,13 @@
                         Send message
                     </button>
 
+                    <RouterLink 
+                        class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg" 
+                        to="/profile/edit"
+                        v-if="userStore.user.id == user.id">
+                        Edit Profile
+                    </RouterLink>
+
                     <button 
                         class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg" 
                         @click="logout"
