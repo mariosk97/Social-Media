@@ -81,3 +81,11 @@ def handle_request(request, pk, status):
     request_user.save()
         
     return JsonResponse({'message': 'friend request updated'})
+
+@api_view(['POST'])
+def edit_profile(request):
+    user = request.user    
+    user.name = request.data.get('name')
+    user.save()
+
+    return JsonResponse({'message': 'friend request updated'})
