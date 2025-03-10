@@ -85,9 +85,9 @@ export default {
 
             if (this.errors.length ===0) {
                 axios
-                    .post ('/api/signup/', this.form) //form data is sent to server
+                    .post ('/api/edit_profile/', this.form) //form data is sent to server
                     .then(response => { //server response
-                        if (response.data.message === 'success') {
+                        if (response.data.message === 'information updated') {
                             this.toastStore.showToast(5000, 'The information was saved', 'bg-emerald-500')
 
                             this.form.email = ''

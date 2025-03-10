@@ -85,7 +85,12 @@ def handle_request(request, pk, status):
 @api_view(['POST'])
 def edit_profile(request):
     user = request.user    
-    user.name = request.data.get('name')
-    user.save()
+    email = request.data.get('email')
+    if User.objects.exclude(id=user.id).filter(email=email).exists():
+        return JsonResponse({'message': 'email already exists'})
+    else:
+        user.email = email
+        user.name = request.data.get('name')
+        user.save()
 
-    return JsonResponse({'message': 'friend request updated'})
+        return JsonResponse({'message': 'information updated'})
